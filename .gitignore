@@ -4,3 +4,6 @@
 # environment variabless
 .env*
 !.env.sample
+
+# tests
+coverage
