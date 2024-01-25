@@ -38,3 +38,29 @@ describe('GET /subjects/:id', () => {
         expect(response.headers['content-type']).toMatch(/json/);
     });
 });
+
+describe('GET /subjects/:id/questions', () => {
+    it('Get unknown subject questions should return 404', async () => {
+        const route = `/subjects/${UNKNOWN_SUBJECT}/questions`;
+        const response = await request(router).get(route);
+
+        expect(response.statusCode).toBe(404);
+        expect(response.body).toEqual({});
+    });
+
+    it('Get a known subject questions should return 200', async () => {
+        const route = `/subjects/${KNOWN_SUBJECT}/questions`;
+        const response = await request(router).get(route);
+
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toEqual(
+            expect.objectContaining({
+                icon: expect.any(String),
+                id: expect.any(String),
+                name: expect.any(String),
+                questions: expect.any(Array),
+            }),
+        );
+        expect(response.headers['content-type']).toMatch(/json/);
+    });
+});
